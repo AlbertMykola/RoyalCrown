@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -147,8 +147,8 @@
 				F0FA6EA424A4849000A9F815 /* MapViewController.swift */,
 				F04DB4E424A5F62E0030A012 /* WhatToDoITController.swift */,
 				F04DB4E624A6008D0030A012 /* AccidentInstructionsController.swift */,
-				F0FA2F7F24A62B600024FC2F /* AccidentReportController.swift */,
 				F004B07724A6676400AD6FD2 /* CameraViewController.swift */,
+				F0FA2F7F24A62B600024FC2F /* AccidentReportController.swift */,
 				F07C3D0C24A8A3B20075A7D4 /* QuestionnairesViewController.swift */,
 				F07C3D1224A8C4910075A7D4 /* QuestionsViewController.swift */,
 			);
@@ -286,7 +286,7 @@
 				F067C28324A2A1880083DCC4 /* Sources */,
 				F067C28424A2A1880083DCC4 /* Frameworks */,
 				F067C28524A2A1880083DCC4 /* Resources */,
-				2D083CEA17BF8633CC74882F /* [CP] Copy Pods Resources */,
+				F4AD114A7AA209C1A7F1B992 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -350,23 +350,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2D083CEA17BF8633CC74882F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Royal Crown/Pods-Royal Crown-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Royal Crown/Pods-Royal Crown-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Royal Crown/Pods-Royal Crown-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		A178639E03F29F6AAF430CB8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -387,6 +370,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F4AD114A7AA209C1A7F1B992 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Royal Crown/Pods-Royal Crown-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Royal Crown/Pods-Royal Crown-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Royal Crown/Pods-Royal Crown-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */

@@ -20,9 +20,11 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
     }
     
     //MARK: - IBOutlet
+    @IBOutlet weak var rotateButton: UIButton!
     @IBOutlet weak private var previewView: UIView!
     @IBOutlet weak private var photoImageView: UIImageView!
     @IBOutlet weak private var collectionView: UICollectionView!
+    @IBOutlet weak var addImage: UIImageView!
     
     //MARK: - Variable
     private var captureSession: AVCaptureSession?
@@ -38,7 +40,7 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
     //MARK: - live cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        imageTintColor(button: rotateButton)
         createdCamera()
         addCustomNavBar()
         collectionView.delegate = self
@@ -55,27 +57,39 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
             self.captureSession = AVCaptureSession()
             
             captureSession?.addInput(input)
-            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-            videoPreviewLayer?.frame = view.layer.bounds
-            previewView.layer.addSublayer(videoPreviewLayer!)
-            captureSession?.startRunning()
+            guard let captureSession = captureSession else { return }
+            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+            guard let videoPreviewLayer = videoPreviewLayer else { return }
+            videoPreviewLayer.frame = view.layer.bounds
+            previewView.layer.addSublayer(videoPreviewLayer)
+            captureSession.startRunning()
         } catch {
         }
         capturePhotoOutput = AVCapturePhotoOutput()
         capturePhotoOutput?.isHighResolutionCaptureEnabled = true
-        captureSession!.addOutput(capturePhotoOutput!)
+        captureSession?.addOutput(capturePhotoOutput!)
+    }
+    
+    private func imageTintColor(button: UIButton) {
+        let image = button.imageView?.image?.withRenderingMode(.alwaysTemplate)
+        button.setImage(image, for: .normal)
+        button.tintColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        button.tintColor = .white
     }
     
     private func addCustomNavBar() {
         let container = UIView(frame: CGRect(x: navigationController!.navigationBar.center.x, y: navigationController!.navigationBar.center.y, width: 50, height: 40))
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icBack"), style: .done, target: self, action: #selector(goBack))
+        navigationItem.leftBarButtonItem?.tintColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(savePhoto))
+        navigationItem.rightBarButtonItem?.tintColor = .white
         
         boldButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
-        boldButton.setImage(#imageLiteral(resourceName: "flash-off-2"), for: .normal)
+        boldButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
         boldButton.contentMode = .scaleAspectFit
         boldButton.addTarget(self, action: #selector(torchSwitch), for: .touchUpInside)
+        imageTintColor(button: boldButton)
         container.addSubview(boldButton)
         navigationItem.titleView = container
         
@@ -85,29 +99,32 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
     }
     
     private func camera(position: AVCaptureDevice?, side: Position) {
-        
-       let captureDevice: AVCaptureDevice?
-       if position?.isConnected == true {
-           captureSession?.stopRunning()
-           if side == .back {
-               captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
-           } else {
-               captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
-           }
-           do {
-               let input = try AVCaptureDeviceInput(device: captureDevice!)
-               captureSession = AVCaptureSession()
-               captureSession?.addInput(input)
-               videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-               videoPreviewLayer?.frame = view.layer.bounds
-               previewView.layer.addSublayer(videoPreviewLayer!)
-               captureSession?.startRunning()
-           } catch {
-           }
-           capturePhotoOutput = AVCapturePhotoOutput()
-           capturePhotoOutput?.isHighResolutionCaptureEnabled = true
-           captureSession?.addOutput(capturePhotoOutput!)
-       }
+        let captureDevice: AVCaptureDevice?
+        if position?.isConnected == true {
+            captureSession?.stopRunning()
+            if side == .back {
+                captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+            } else {
+                captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .front)
+            }
+            do {
+                guard let captureDevice = captureDevice else { return }
+                let input = try AVCaptureDeviceInput(device: captureDevice)
+                captureSession = AVCaptureSession()
+                captureSession?.addInput(input)
+                guard let captureSession = captureSession else { return }
+                videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
+                guard let videoPreviewLayer = videoPreviewLayer else { return }
+                videoPreviewLayer.frame = view.layer.bounds
+                previewView.layer.addSublayer(videoPreviewLayer)
+                captureSession.startRunning()
+            } catch {
+            }
+            capturePhotoOutput = AVCapturePhotoOutput()
+            guard let capturePhotoOutput = capturePhotoOutput else { return }
+            capturePhotoOutput.isHighResolutionCaptureEnabled = true
+            captureSession?.addOutput(capturePhotoOutput)
+        }
     }
     
     @objc private func savePhoto() {
@@ -123,10 +140,12 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
     
     @objc func torchSwitch(_ sender: Any) {
         if flash == AVCaptureDevice.FlashMode.off {
-            boldButton.setImage(#imageLiteral(resourceName: "icons8-вспышка-48"), for: .normal)
+            boldButton.setImage(#imageLiteral(resourceName: "boldWhite"), for: .normal)
+            imageTintColor(button: boldButton)
             flash = .on
         } else {
-            boldButton.setImage(#imageLiteral(resourceName: "flash-off-2"), for: .normal)
+            boldButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
+           imageTintColor(button: boldButton)
             flash = .off
         }
         
@@ -195,11 +214,14 @@ extension CameraViewController: UICollectionViewDataSource {
         
         if indexPath.row == 0 {
             cell.deleteButton.isHidden = true
-            cell.photos.image = #imageLiteral(resourceName: "image")
+            cell.addLabel.isHidden = false
+            cell.photos.image = UIImage(named: "placeholder")
             return cell
         }
         let photo = photosArray[indexPath.row - 1]
         cell.photos.image = photo
+        cell.deleteButton.isHidden = true
+        cell.addLabel.isHidden = true
         return cell
     }
 }
@@ -218,7 +240,7 @@ extension CameraViewController: UICollectionViewDelegate {
 extension CameraViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
-        return CGSize(width: 100, height: collectionView.frame.height - 10)
+        return CGSize(width: self.collectionView.frame.width / 6, height: collectionView.frame.height)
     }
 }
 

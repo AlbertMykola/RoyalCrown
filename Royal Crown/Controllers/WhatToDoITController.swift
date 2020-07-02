@@ -19,7 +19,7 @@ final class WhatToDoITController: UIViewController {
     //MARK: - Live cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: "What to do it")
         myTableView.dataSource = self
         myTableView.delegate = self
         myTableView.register(UINib(nibName: "AboutCellTableViewCell", bundle: nil), forCellReuseIdentifier: "AboutCellTableViewCell")
@@ -52,6 +52,7 @@ extension WhatToDoITController: UITableViewDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "AccidentInstructionsController") as! AccidentInstructionsController
         vc.dataSource = dataSource?[indexPath.row]
+        vc.titleItem = dataSource?[indexPath.row].title
         navigationController?.pushViewController(vc, animated: true)
     }
 }

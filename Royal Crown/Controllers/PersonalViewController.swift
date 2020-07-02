@@ -15,6 +15,7 @@ final class PersonalViewController: UIViewController {
     
     //MARK: - Variable
     var dataSource = [Services]()
+    var titleItem: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,7 @@ final class PersonalViewController: UIViewController {
     }
     
     private func createTableView() {
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: titleItem ?? "")
         myTableView.delegate = self
         myTableView.dataSource = self
         myTableView.register(UINib(nibName: "AboutCellTableViewCell", bundle: nil), forCellReuseIdentifier: "AboutCellTableViewCell")

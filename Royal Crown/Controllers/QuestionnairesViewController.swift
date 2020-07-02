@@ -20,7 +20,7 @@ final class QuestionnairesViewController: UIViewController {
     //MARK: Live cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: "Questionnaires")
         myTableView.delegate = self
         myTableView.dataSource = self
         myTableView.register(UINib(nibName: "QuestionCell", bundle: nil), forCellReuseIdentifier: "QuestionCell")
@@ -86,6 +86,8 @@ extension QuestionnairesViewController: UITableViewDelegate {
         if let id = dataSource?[indexPath.row].id {
             vc.id = id
         }
+        vc.titleItem = dataSource?[indexPath.row].title
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }

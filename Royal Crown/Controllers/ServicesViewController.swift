@@ -25,7 +25,7 @@ final class ServicesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DataManager.shared.createTableView(tableView: myTableView, vc: self)
-        DataManager.shared.createImageToNavigationBar(navigationController: navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: navigationController!, navigationItem: navigationItem, text: "Services")
         parsing()
     }
     
@@ -51,6 +51,7 @@ final class ServicesViewController: UIViewController {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let vc = storyboard.instantiateViewController(withIdentifier: "PersonalViewController") as! PersonalViewController
         vc.dataSource = param
+        vc.titleItem = param.first?.type?.capitalized
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -71,9 +72,9 @@ extension ServicesViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 0:
-            goToTheNextVC(param: personalTypeArray)
-        case 1:
             goToTheNextVC(param: businessTypeArray)
+        case 1:
+            goToTheNextVC(param: personalTypeArray)
         default:
             break
         }

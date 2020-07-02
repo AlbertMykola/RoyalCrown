@@ -20,9 +20,9 @@ final class AboutViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: "About")
         DataManager.shared.createTableView(tableView: myTableView, vc: self)
-        DataManager.shared.createImageToNavigationBar(navigationController: navigationController!, navigationItem: navigationItem)
+
         parsing()
     }
     

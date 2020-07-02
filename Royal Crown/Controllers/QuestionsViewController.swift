@@ -8,7 +8,6 @@
 
 import UIKit
 
-
 final class QuestionsViewController: UIViewController {
     
     //MARK: - Outlets
@@ -21,16 +20,19 @@ final class QuestionsViewController: UIViewController {
     var url: String?
     var dataSource: [Question]?
     var id = 0
+    var titleItem: String?
     private var answers: [Answers]?
     private var order = 0
     private let userDefault = UserDefaults.standard
     private var numberOfCorrectAnswers = 0
     private var dictionary = [Int: Bool]()
+    private var cellIndex: Int?
+    private var backCellIndex = [Int]()
     
     //MARK: - Live cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: titleItem ?? "")
         pageControl.currentPage = 0
         myTableView.delegate = self
         myTableView.dataSource = self
@@ -40,17 +42,29 @@ final class QuestionsViewController: UIViewController {
     
     //MARK: - IBAction
     @IBAction func nextButton(_ sender: UIButton!)  {
-        guard let dataSourceCount = dataSource?.count else { return }
-        if order < dataSourceCount - 1 {
-            order += 1
+        guard let cellIndex = cellIndex else { return }
+        guard let dataSource = dataSource else { return }
+        order += 1
+        if order < dataSource.count - 1 {
             pageControl.currentPage = order
+            let id = dataSource[order].id
+            dictionary.updateValue(dataSource[order].answers[cellIndex].correct, forKey: id)
+            calculation()
             myTableView.reloadData()
+        } else if  order == dataSource.count - 1 {
+            dictionary.removeAll()
+            userDefault.set(counterLabel.text, forKey: "\(id)")
+            navigationController?.popViewController(animated: true)
         }
+        backCellIndex.append(cellIndex)
+        self.cellIndex = nil
+        myTableView.reloadData()
     }
     
     @IBAction func prevButton(_ sender: UIButton!)  {
         if order != 0 {
             order -= 1
+            cellIndex = backCellIndex[order]
             pageControl.currentPage = order
             myTableView.reloadData()
         }
@@ -65,7 +79,7 @@ final class QuestionsViewController: UIViewController {
                     let result = try JSONDecoder().decode([Question].self, from: result)
                     self.dataSource = result
                     self.counterLabel.text = "0/\(self.dataSource!.count)"
-                    self.pageControl.numberOfPages = self.dataSource!.count
+                    self.pageControl.numberOfPages = self.dataSource!.count - 1
                     self.myTableView.reloadData()
                 } catch {
                     break
@@ -81,28 +95,16 @@ final class QuestionsViewController: UIViewController {
         for i in  dictionary.keys {
             if dictionary[i] == true {
                 numberOfCorrectAnswers += 1
-                self.counterLabel.text = "\(numberOfCorrectAnswers)/\(dataSource?.count ?? 0 - 1)"
             }
         }
+        self.counterLabel.text = "\(numberOfCorrectAnswers)/\(dataSource?.count ?? 0 - 1)"
     }
 }
 
 //MARK: - UITableViewDelegate
 extension QuestionsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let dataSource = dataSource else { return }
-        if order < dataSource.count - 1 {
-            order += 1
-            pageControl.currentPage = order
-            let id = dataSource[order].answers[indexPath.row].id
-            self.dictionary[id] = dataSource[order].answers[indexPath.row].correct
-            calculation()
-            myTableView.reloadData()
-        } else if  order == dataSource.count - 1 {
-            dictionary.removeAll()
-            userDefault.set(counterLabel.text, forKey: "\(id)")
-            navigationController?.popViewController(animated: true)
-        }
+        cellIndex = indexPath.row
         myTableView.reloadData()
     }
 }
@@ -115,8 +117,20 @@ extension QuestionsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AnswerTableViewCell", for: indexPath) as! AnswerTableViewCell
-        cell.answerLabel?.text = dataSource?[order].answers[indexPath.row].text
-        self.questionLabel.text = dataSource?[order].text
-        return cell
+        if cellIndex == indexPath.row {
+            cell.answerLabel?.text = dataSource?[order].answers[indexPath.row].text
+            if #available(iOS 13.0, *) {
+                cell.answerLabel.textColor = .tertiarySystemBackground
+            } else {
+                cell.answerLabel.textColor = .darkText
+            }
+            self.questionLabel.text = dataSource?[order].text
+            return cell
+        } else {
+            cell.answerLabel?.text = dataSource?[order].answers[indexPath.row].text
+            self.questionLabel.text = dataSource?[order].text
+            cell.answerLabel.textColor = .lightGray
+            return cell
+        }
     }  
 }

@@ -22,6 +22,8 @@ final class ViewController: UIViewController {
         super.viewDidLoad()
         createCollectionView()
         createImageToNavigationBar()
+        createCollectionView()
+
     }
     
     //MARK: - Private func
@@ -87,11 +89,11 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
         
         if indexPath.row == 2 || indexPath.row == 5 {
             let width  = view.frame.width
-            let height = (view.frame.height - 90) / 5
+            let height = (view.frame.height - 120) / 4
             return CGSize(width: width, height: height)
         } else {
             let width  = (view.frame.width - 10) / 2
-            let height = (view.frame.height - 5) / 4
+            let height = (view.frame.height - 50) / 4
             return CGSize(width: width, height: height)
         }
     }

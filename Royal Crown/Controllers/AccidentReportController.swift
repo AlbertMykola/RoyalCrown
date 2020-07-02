@@ -9,14 +9,20 @@
 import UIKit
 
 
-
 final class AccidentReportController: UIViewController {
     
     //MARK: - IBOutlets
+    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var textFieldCollection: [UITextField]!
     @IBOutlet weak private var myCollectionView: UICollectionView!
     @IBOutlet weak private var reportButton: UIButton!
     @IBOutlet weak private var messageLabel: UILabel!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var telNumTextField: UITextField!
+    @IBOutlet weak var regNumTextField: UITextField!
+    @IBOutlet weak var countTellNum: UILabel!
+    @IBOutlet weak var indicatorView: UICollectionView!
     
     //MARK: - Variable
     var dataSource = [UIImage]()
@@ -28,34 +34,35 @@ final class AccidentReportController: UIViewController {
     //MARK: Live cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: "Accident report")
         addCollectionCell()
-        for textField in textFieldCollection {
-            textField.delegate = self
-        }
+        nameTextField.delegate = self
+        telNumTextField.delegate = self
+        regNumTextField.delegate = self
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        for textField in textFieldCollection {
-            switch textField.tag {
-            case 2:
-                if textField.text?.count ?? 0 < 5 {
-                    self.emphasis(textField: textField, color: UIColor.red.cgColor)
-                } else {
-                    self.emphasis(textField: textField, color: UIColor.lightGray.cgColor)
-                }
-            default:
-                if textField.text?.count ?? 0 < 3 {
-                    self.emphasis(textField: textField, color: UIColor.red.cgColor)
-                } else {
-                    self.emphasis(textField: textField, color: UIColor.lightGray.cgColor)
-                }
-            }
-        }
+        textFieldBorderColor(textField: nameTextField)
+        textFieldBorderColor(textField: telNumTextField)
+        textFieldBorderColor(textField: regNumTextField)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    self.view.endEditing(true)
     }
     
     //MARK: - Private func
+    private func textFieldBorderColor(textField: UITextField) {
+        if textField.text?.count ?? 0 < 1 {
+            self.emphasis(textField: textField, color: UIColor.lightGray.cgColor)
+        } else {
+            self.emphasis(textField: textField, color: UIColor.purple.cgColor)
+        }
+    }
+
     private func addCollectionCell() {
         myCollectionView.delegate = self
         myCollectionView.dataSource = self
@@ -79,48 +86,60 @@ final class AccidentReportController: UIViewController {
         textField.layer.masksToBounds = true
     }
     
+    func message(_ text: Message) {
+        activityIndicator.isHidden = true
+        var string = ""
+        if let message = text.message {
+            self.messageLabel.text = message
+            self.backRootController()
+        } else {
+            guard let error = text.errors else { return }
+            for i in error {
+                string  += i
+            }
+            self.messageLabel.text = string
+            self.messageLabel.backgroundColor = .red
+            self.backRootController()
+        }
+    }
+    
+    private func postRequest(url: URL, param: [String: String]) {
+        DispatchQueue.main.async {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("application/json;", forHTTPHeaderField: "Content-Type")
+            guard let httpBody = try? JSONSerialization.data(withJSONObject: param, options: []) else {return}
+            request.httpBody = httpBody
+            NetworkService.shared.postRequest(request: request) { (results) in
+                switch results {
+                case .success(let result):
+                    do {
+                        let json = try JSONDecoder().decode(Message.self, from: result)
+                        self.message(json)
+                        self.messageLabel.isHidden = false
+                    } catch {
+                        print("error")
+                    }
+                case .failure(_):
+                    print("error")
+                }
+            }
+        }
+    }
+
     @IBAction func didChangeSwitch(_ sender: UISwitch!) {
         switchValue = sender.isOn
+        reportButton.isHidden = !reportButton.isHidden
+        
     }
     
     @IBAction func report(_ sender: UIButton!) {
+        activityIndicator.isHidden = false
+        
         let encodedImages = dataSource.compactMap({ $0.pngData()?.base64EncodedString() })
-        let param = ["name": "\(textFieldCollection[0].text ?? "")" , "reg_policy_number": "\(textFieldCollection[1].text ?? "")", "phone_number": "\(textFieldCollection[2].text ?? "")", "photos_attributes": "\(encodedImages)"]
+        let param = ["name": "\(nameTextField.text ?? "")" , "reg_policy_number": "\(regNumTextField.text ?? "")", "phone_number": "\(regNumTextField.text ?? "")", "photos_attributes": "\(encodedImages)"]
         guard let url = URL(string: "http://31.131.21.105:82/api/v1/accident_reports") else {return}
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("application/json;", forHTTPHeaderField: "Content-Type")
-        guard let httpBody = try? JSONSerialization.data(withJSONObject: param, options: []) else {return}
-        request.httpBody = httpBody
-        let session = URLSession.shared
-        session.dataTask(with: request) { (data, response, error) in
-            guard let data = data else {return}
-            do {
-                let json = try JSONSerialization.jsonObject(with: data, options: [])
-                let string = json as? [String: String]
-                let error =  json as? [String: [String]]
-                
-                DispatchQueue.main.async {
-                    self.backRootController()
-                }
-                DispatchQueue.main.async {
-                    self.messageLabel.isHidden = false
-                    if string != nil {
-                        self.messageLabel.text = string?["message"]
-                    } else {
-                        let massage =  error?["errors"]
-                        var string = ""
-                        for i in massage! {
-                            string += "\(i), "
-                        }
-                        self.messageLabel.text = string
-                        self.messageLabel.backgroundColor = .red
-                    }
-                }
-            }
-            catch {
-            }
-        }.resume()
+        self.postRequest(url: url, param: param)
     }
 }
 
@@ -144,8 +163,10 @@ extension AccidentReportController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCollectionCell", for: indexPath) as! PhotoCollectionCell
         cell.delegate = self
         if indexPath.row == 0 {
+            cell.isHidden = false
             cell.deleteButton.isHidden = true
-            cell.photos.image = #imageLiteral(resourceName: "icAdd-1")
+            cell.photos.contentMode = .scaleAspectFit
+            cell.photos.image = #imageLiteral(resourceName: "icAdd")
             return cell
         }
         cell.photos.image = dataSource[indexPath.row - 1]
@@ -160,16 +181,30 @@ extension AccidentReportController: UICollectionViewDelegateFlowLayout {
 }
 
 extension AccidentReportController: UITextFieldDelegate {
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         switch textField.tag {
         case 2:
+                if  textField.text!.count <= 8 {
+                    self.countTellNum.isHidden = false
+                } else {
+                    self.countTellNum.isHidden = true
+                }
+            
+    default:
+        break
+        }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField{
+        case nameTextField:
+            regNumTextField.becomeFirstResponder()
+        case regNumTextField:
+            telNumTextField.becomeFirstResponder()
+        case telNumTextField:
             textField.resignFirstResponder()
         default:
-            textFieldCollection[textField.tag + 1].becomeFirstResponder()
             return true
         }
         return false
@@ -184,4 +219,9 @@ extension AccidentReportController: removeCollectionCell {
             dataSource.remove(at: indexPath!.row - 1)
         }
     }
+}
+
+extension UIView {
+    
+    
 }

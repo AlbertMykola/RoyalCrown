@@ -17,33 +17,41 @@
                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="WpD-8l-Bcd">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="WpD-8l-Bcd">
                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                     </imageView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WWf-t7-81q">
-                        <rect key="frame" x="80" y="0.0" width="20" height="20"/>
+                        <rect key="frame" x="75" y="5" width="20" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="AJg-6y-PKo"/>
-                            <constraint firstAttribute="width" constant="20" id="uvG-cB-w8q"/>
+                            <constraint firstAttribute="height" constant="20" id="3sK-4b-s9U"/>
+                            <constraint firstAttribute="width" constant="20" id="Up2-q9-VEL"/>
                         </constraints>
                         <state key="normal" title="Button" image="icClose"/>
                         <connections>
                             <action selector="deletePhoto:" destination="gTV-IL-0wX" eventType="touchUpInside" id="djG-et-MB3"/>
                         </connections>
                     </button>
+                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oLA-eE-5QR">
+                        <rect key="frame" x="40.5" y="32" width="19" height="36"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="WWf-t7-81q" secondAttribute="trailing" id="axs-i4-qC8"/>
+                <constraint firstItem="WWf-t7-81q" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="2fF-CE-NWk"/>
+                <constraint firstItem="oLA-eE-5QR" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="SkH-xm-fnv"/>
+                <constraint firstItem="oLA-eE-5QR" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="Veu-aM-ahy"/>
                 <constraint firstAttribute="trailing" secondItem="WpD-8l-Bcd" secondAttribute="trailing" id="bes-Go-XRQ"/>
+                <constraint firstAttribute="trailing" secondItem="WWf-t7-81q" secondAttribute="trailing" constant="5" id="eEw-Go-r4h"/>
                 <constraint firstItem="WpD-8l-Bcd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="kFn-SN-xRT"/>
-                <constraint firstItem="WWf-t7-81q" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="qyU-gL-ml5"/>
                 <constraint firstAttribute="bottom" secondItem="WpD-8l-Bcd" secondAttribute="bottom" id="tGS-xM-oa1"/>
                 <constraint firstItem="WpD-8l-Bcd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="tM3-PW-Xy6"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="133" height="103"/>
             <connections>
+                <outlet property="addLabel" destination="oLA-eE-5QR" id="RvS-RP-o7O"/>
                 <outlet property="deleteButton" destination="WWf-t7-81q" id="vDc-91-S8o"/>
                 <outlet property="photos" destination="WpD-8l-Bcd" id="Fy1-p5-QWK"/>
             </connections>

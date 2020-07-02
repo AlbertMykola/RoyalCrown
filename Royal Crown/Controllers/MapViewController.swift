@@ -34,12 +34,13 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createMarkersAndMap()
+        DataManager.shared.createImageToNavigationBar(navigationController: navigationController!, navigationItem: navigationItem, text: "Branches")
     }
     
     //MARK: - IBAction
     @IBAction func openClosed(_ sender: UIButton) {
         open = !open
-        if open == true {
+        if open {
             heightMyView.constant = 250.0
             buttonOutlet.setImage(#imageLiteral(resourceName: "icArrowDown"), for: .normal)
             for i in self.constraintLabels {

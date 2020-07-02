@@ -17,13 +17,19 @@ final class CombinedViewController: UIViewController {
     //MARK: - Variables
     var dataSource: Services?
     
+    //MARK: - Live cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+
         titleLabel.text = dataSource?.title
         let textHTML = dataSource?.description
         myTextView.attributedText = textHTML?.htmlToAttributedString
         myTextView.textColor = .blue
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: dataSource?.title ?? "")
     }
     
     //MARK: - Actions

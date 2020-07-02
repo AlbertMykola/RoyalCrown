@@ -10,14 +10,23 @@ import UIKit
 
 final class AccidentInstructionsController: UIViewController {
     
-    var dataSource: WhatToDoIt?
+    
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var segmentControll: UISegmentedControl!
     @IBOutlet weak var myTextView: UITextView!
     
+    var dataSource: WhatToDoIt?
+    var titleItem: String?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: titleItem ?? "")
+        created()
+    }
+    
+    func created() {
         if dataSource?.tabs == false {
             titleLabel.isHidden = false
             titleLabel.text = dataSource?.tabTitleFirst

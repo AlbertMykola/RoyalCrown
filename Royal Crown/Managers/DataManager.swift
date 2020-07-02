@@ -30,19 +30,32 @@ class DataManager {
         tableView.delegate = vc as? UITableViewDelegate
         tableView.dataSource = vc as? UITableViewDataSource
     }
-    
-    func createImageToNavigationBar(navigationController: UINavigationController, navigationItem: UINavigationItem) {
+
+    func createImageToNavigationBar(navigationController: UINavigationController, navigationItem: UINavigationItem, text: String) {
         let navigationController = navigationController
-        let container = UIView(frame: CGRect(x: navigationController.navigationBar.center.x, y: navigationController.navigationBar.center.y, width: 50, height: 40))
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 50, height: 40))
+        let width = navigationController.navigationBar.frame.width
+        let height = navigationController.navigationBar.frame.height
         
+        let container = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        let imageView = UIImageView(frame: CGRect(x: width - 100, y: 0, width: 50, height: 40))
         imageView.image = #imageLiteral(resourceName: "icIconRed")
         imageView.contentMode = .scaleAspectFit
+        
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 13.0)
+        label.text = text
+        label.numberOfLines = 0
+        
+        label.textColor = .blue
+        label.textAlignment = .center
+        label.frame = CGRect(x: 0, y: 0, width: 200, height: height)
+        label.center.x = navigationController.navigationBar.center.x  - 40
+        
         container.addSubview(imageView)
+        container.addSubview(label)
         navigationItem.titleView = container
-   
     }
-
+    
     func nextViewController(withIdentifier: String, navController: UINavigationController) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let VC = storyboard.instantiateViewController(withIdentifier: withIdentifier)

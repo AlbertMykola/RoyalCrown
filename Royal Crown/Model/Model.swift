@@ -75,7 +75,8 @@ struct Questionnaire: Codable {
 }
 
 struct Message: Codable {
-    var errors: [String]
+    var errors: [String]?
+    var message: String?
 }
 
 

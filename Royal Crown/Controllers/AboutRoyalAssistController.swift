@@ -19,7 +19,7 @@ final class AboutRoyalAssistController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         parsing()
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: "About Royal Assist")
     }
     
     //MARK: - Private func
@@ -33,7 +33,7 @@ final class AboutRoyalAssistController: UIViewController {
                     let string = result.aboutRoyalAssist
                     guard let strings = string else {return}
                     self.myTextView.attributedText = strings.htmlToAttributedString
-                    self.myTextView.textColor = .blue
+                    self.myTextView.textColor = .systemBlue
                 } catch {
                     break
                 }

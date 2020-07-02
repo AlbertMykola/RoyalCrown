@@ -12,7 +12,7 @@ final class RoyalPaymentsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        DataManager.shared.createImageToNavigationBar(navigationController: navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: navigationController!, navigationItem: navigationItem, text: "Royal Payments")
     }
     
     @IBAction func buttonAction(_ sender: UIButton) {

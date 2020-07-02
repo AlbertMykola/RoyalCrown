@@ -24,4 +24,18 @@ class NetworkService {
             }
         }.resume()
     }
+    
+    
+    func postRequest(request: URLRequest, completion: @escaping (Result <Data, Error>) -> ()) {
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+                guard let data = data else {return}
+                completion(.success(data))
+            }
+        }.resume()
+    }
 }

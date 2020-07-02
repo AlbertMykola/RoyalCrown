@@ -21,7 +21,7 @@ class RoyalAssistController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         DataManager.shared.createTableView(tableView: myTableView, vc: self)
-        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem)
+        DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: "Royal Assist")
     }
     
     //MARK: - Private functions

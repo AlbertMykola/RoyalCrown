@@ -18,6 +18,12 @@ class PhotoCollectionCell: UICollectionViewCell {
     //MARK: - Outlets
     @IBOutlet weak var photos: UIImageView!
     @IBOutlet weak var deleteButton: UIButton!
+    @IBOutlet weak var addLabel: UILabel!
+    
+    override func prepareForReuse() {
+         deleteButton.isHidden = false
+
+    }
     
     //MARK: - Variable
     weak var delegate: removeCollectionCell? = nil
