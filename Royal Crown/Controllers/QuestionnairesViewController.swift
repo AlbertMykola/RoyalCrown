@@ -106,7 +106,6 @@ extension QuestionnairesViewController: UITableViewDataSource {
             cell.heightCounterLabel.constant = 20.0
             cell.orderLabel.text = order
             tryAgainButtonIsHidden()
-            
         } else {
             cell.heightCounterLabel.constant = 0.0
         }

@@ -9,16 +9,13 @@
 import UIKit
 
 final class AccidentInstructionsController: UIViewController {
-    
-    
-    
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var segmentControll: UISegmentedControl!
     @IBOutlet weak var myTextView: UITextView!
     
     var dataSource: WhatToDoIt?
     var titleItem: String?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -40,17 +40,23 @@ final class MapViewController: UIViewController {
     //MARK: - IBAction
     @IBAction func openClosed(_ sender: UIButton) {
         open = !open
-        if open {
-            heightMyView.constant = 250.0
-            buttonOutlet.setImage(#imageLiteral(resourceName: "icArrowDown"), for: .normal)
+        loadViewIfNeeded()
+        UIView.animate(withDuration: 0.3) { [weak self] in
+            guard let self = self else { return }
+            if self.open {
+            self.heightMyView.constant = 250.0
+                self.buttonOutlet.setImage(#imageLiteral(resourceName: "icArrowDown"), for: .normal)
             for i in self.constraintLabels {
                 i.constant = 20
             }
+                self.view.layoutIfNeeded()
         } else {
-            heightMyView.constant = 100.0
-            buttonOutlet.setImage(#imageLiteral(resourceName: "icArrowUp"), for: .normal)
+                self.heightMyView.constant = 100.0
+                self.buttonOutlet.setImage(#imageLiteral(resourceName: "icArrowUp"), for: .normal)
             for i in self.constraintLabels {
                 i.constant = 0
+                }
+                self.view.layoutIfNeeded()
             }
         }
     }
@@ -74,7 +80,6 @@ final class MapViewController: UIViewController {
             marker.map = self.mapView
         }
     }
-    
     
     private func addInfo(title: String) {
         for i in dataSource! {

@@ -12,6 +12,7 @@ final class ServicesViewController: UIViewController {
     
     //MARK: - IBOutlet
     @IBOutlet weak private var myTableView: UITableView!
+
     
     //MARK: - Variable
     private var imagesForCell = [UIImage(named: "imgWhatToDoIf"), UIImage(named: "imgWhatToDoIf-1")]

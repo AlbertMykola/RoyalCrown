@@ -40,6 +40,7 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
     //MARK: - live cycles
     override func viewDidLoad() {
         super.viewDidLoad()
+        authorizationStatus()
         imageTintColor(button: rotateButton)
         createdCamera()
         addCustomNavBar()
@@ -49,13 +50,33 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
     }
     
     //MARK: - Private functions
-    func createdCamera() {
+    private func authorizationStatus() {
+        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized {
+        } else {
+            AVCaptureDevice.requestAccess(for: AVMediaType.video, completionHandler: { (granted :Bool) -> Void in
+                if granted == true {
+                } else {
+                    let alertController = UIAlertController(title: "Access to the camera is disabled", message: "Please give access to the camera", preferredStyle: .alert)
+                    let ok = UIAlertAction(title: "Ok", style: .default) { (param) in
+                        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+                    }
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (param) in
+                        DataManager.shared.nextViewController(withIdentifier: "AccidentReportController", navController: self.navigationController!)
+                    }
+                    alertController.addAction(ok)
+                    alertController.addAction(cancel)
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            })
+        }
+    }
+    
+    private func createdCamera() {
         let captureDevice = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
         do {
             guard let captureDevice = captureDevice else { return }
             let input = try AVCaptureDeviceInput(device: captureDevice)
             self.captureSession = AVCaptureSession()
-            
             captureSession?.addInput(input)
             guard let captureSession = captureSession else { return }
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
@@ -79,7 +100,6 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
     
     private func addCustomNavBar() {
         let container = UIView(frame: CGRect(x: navigationController!.navigationBar.center.x, y: navigationController!.navigationBar.center.y, width: 50, height: 40))
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icBack"), style: .done, target: self, action: #selector(goBack))
         navigationItem.leftBarButtonItem?.tintColor = .white
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "DONE", style: .done, target: self, action: #selector(savePhoto))
@@ -145,7 +165,7 @@ final class CameraViewController: UIViewController, UINavigationControllerDelega
             flash = .on
         } else {
             boldButton.setImage(#imageLiteral(resourceName: "flash-off"), for: .normal)
-           imageTintColor(button: boldButton)
+            imageTintColor(button: boldButton)
             flash = .off
         }
         

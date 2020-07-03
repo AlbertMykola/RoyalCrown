@@ -125,23 +125,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="5" currentPage="1" translatesAutoresizingMaskIntoConstraints="NO" id="sKo-ut-C0c">
-                                <rect key="frame" x="60" y="859" width="294" height="37"/>
+                                <rect key="frame" x="80" y="859" width="254" height="37"/>
                                 <color key="pageIndicatorTintColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="currentPageIndicatorTintColor" red="0.5" green="0.0" blue="0.76431399830000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </pageControl>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcr-3g-scz">
-                                <rect key="frame" x="0.0" y="866" width="50" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="EJg-5R-HRJ"/>
-                                    <constraint firstAttribute="width" constant="50" id="xRN-fE-pjF"/>
-                                </constraints>
-                                <state key="normal" title="Prev"/>
-                                <connections>
-                                    <action selector="prevButton:" destination="CAa-au-pL4" eventType="touchUpInside" id="ij6-jc-HOR"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yhr-tI-YOS">
-                                <rect key="frame" x="364" y="866" width="50" height="30"/>
+                                <rect key="frame" x="344" y="862" width="50" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="gR2-us-G2J"/>
                                     <constraint firstAttribute="height" constant="30" id="ykV-pv-4Nj"/>
@@ -156,26 +145,37 @@
                                 <rect key="frame" x="0.0" y="104" width="414" height="755"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rcr-3g-scz">
+                                <rect key="frame" x="20" y="862" width="50" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="EJg-5R-HRJ"/>
+                                    <constraint firstAttribute="width" constant="50" id="xRN-fE-pjF"/>
+                                </constraints>
+                                <state key="normal" title="Prev"/>
+                                <connections>
+                                    <action selector="prevButton:" destination="CAa-au-pL4" eventType="touchUpInside" id="ij6-jc-HOR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="uDm-Pn-cDN" firstAttribute="leading" secondItem="DnR-VH-ne9" secondAttribute="leading" constant="50" id="6O8-oc-qFG"/>
-                            <constraint firstItem="rcr-3g-scz" firstAttribute="leading" secondItem="DnR-VH-ne9" secondAttribute="leading" id="96s-7Q-5c4"/>
                             <constraint firstItem="NWn-bD-XUQ" firstAttribute="top" secondItem="uDm-Pn-cDN" secondAttribute="bottom" constant="10" id="BQl-N9-BLD"/>
                             <constraint firstItem="NWn-bD-XUQ" firstAttribute="leading" secondItem="DnR-VH-ne9" secondAttribute="leading" constant="20" id="BWJ-qJ-Ciy"/>
                             <constraint firstItem="sKo-ut-C0c" firstAttribute="bottom" secondItem="8gb-qw-c1D" secondAttribute="bottom" id="Hvf-mV-AaR"/>
-                            <constraint firstAttribute="bottom" secondItem="yhr-tI-YOS" secondAttribute="bottom" id="Hzq-DJ-pTa"/>
-                            <constraint firstItem="DnR-VH-ne9" firstAttribute="trailing" secondItem="yhr-tI-YOS" secondAttribute="trailing" id="Qer-gM-SE1"/>
                             <constraint firstItem="NL5-7J-1LC" firstAttribute="leading" secondItem="DnR-VH-ne9" secondAttribute="leading" id="TJo-zL-D3z"/>
                             <constraint firstItem="sKo-ut-C0c" firstAttribute="leading" secondItem="rcr-3g-scz" secondAttribute="trailing" constant="10" id="WDe-tQ-nOd"/>
+                            <constraint firstItem="rcr-3g-scz" firstAttribute="leading" secondItem="8gb-qw-c1D" secondAttribute="leading" constant="20" id="ZbK-FZ-heT"/>
                             <constraint firstItem="uDm-Pn-cDN" firstAttribute="top" secondItem="DnR-VH-ne9" secondAttribute="top" constant="10" id="aN8-HR-maf"/>
                             <constraint firstItem="DnR-VH-ne9" firstAttribute="trailing" secondItem="NWn-bD-XUQ" secondAttribute="trailing" constant="20" id="axU-a3-ggU"/>
                             <constraint firstItem="DnR-VH-ne9" firstAttribute="trailing" secondItem="uDm-Pn-cDN" secondAttribute="trailing" constant="50" id="cFY-Eb-kxY"/>
+                            <constraint firstAttribute="bottom" secondItem="yhr-tI-YOS" secondAttribute="bottom" constant="4" id="gfU-pk-DcZ"/>
+                            <constraint firstAttribute="trailing" secondItem="yhr-tI-YOS" secondAttribute="trailing" constant="20" id="jQk-dk-egU"/>
                             <constraint firstItem="sKo-ut-C0c" firstAttribute="top" secondItem="NL5-7J-1LC" secondAttribute="bottom" id="kCA-Yq-Gtn"/>
                             <constraint firstItem="yhr-tI-YOS" firstAttribute="leading" secondItem="sKo-ut-C0c" secondAttribute="trailing" constant="10" id="r73-Al-EfD"/>
                             <constraint firstItem="DnR-VH-ne9" firstAttribute="trailing" secondItem="NL5-7J-1LC" secondAttribute="trailing" id="rAA-R4-2OB"/>
-                            <constraint firstAttribute="bottom" secondItem="rcr-3g-scz" secondAttribute="bottom" id="tdy-Dn-3Az"/>
                             <constraint firstItem="NL5-7J-1LC" firstAttribute="top" secondItem="NWn-bD-XUQ" secondAttribute="bottom" id="w1z-WZ-e0Q"/>
+                            <constraint firstAttribute="bottom" secondItem="rcr-3g-scz" secondAttribute="bottom" constant="4" id="wxJ-f6-oVQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DnR-VH-ne9"/>
                     </view>
@@ -844,7 +844,7 @@
                                     <action selector="didChangeSwitch:" destination="lDD-GD-1XQ" eventType="valueChanged" id="z18-ma-vYc"/>
                                 </connections>
                             </switch>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Fp-mF-79I">
+                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Fp-mF-79I">
                                 <rect key="frame" x="50" y="774" width="314" height="50"/>
                                 <color key="backgroundColor" red="0.5" green="0.0" blue="0.76431399830000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>

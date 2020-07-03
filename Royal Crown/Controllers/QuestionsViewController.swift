@@ -120,7 +120,7 @@ extension QuestionsViewController: UITableViewDataSource {
         if cellIndex == indexPath.row {
             cell.answerLabel?.text = dataSource?[order].answers[indexPath.row].text
             if #available(iOS 13.0, *) {
-                cell.answerLabel.textColor = .tertiarySystemBackground
+                cell.answerLabel.textColor = #colorLiteral(red: 0.5, green: 0, blue: 0.7643139983, alpha: 1)
             } else {
                 cell.answerLabel.textColor = .darkText
             }

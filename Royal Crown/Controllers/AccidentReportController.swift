@@ -12,7 +12,6 @@ import UIKit
 final class AccidentReportController: UIViewController {
     
     //MARK: - IBOutlets
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet var textFieldCollection: [UITextField]!
     @IBOutlet weak private var myCollectionView: UICollectionView!
@@ -34,13 +33,11 @@ final class AccidentReportController: UIViewController {
     //MARK: Live cycles
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: "Accident report")
         addCollectionCell()
         nameTextField.delegate = self
         telNumTextField.delegate = self
         regNumTextField.delegate = self
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -118,10 +115,8 @@ final class AccidentReportController: UIViewController {
                         self.message(json)
                         self.messageLabel.isHidden = false
                     } catch {
-                        print("error")
                     }
-                case .failure(_):
-                    print("error")
+                case .failure(_): break
                 }
             }
         }
@@ -129,8 +124,8 @@ final class AccidentReportController: UIViewController {
 
     @IBAction func didChangeSwitch(_ sender: UISwitch!) {
         switchValue = sender.isOn
-        reportButton.isHidden = !reportButton.isHidden
-        
+        reportButton.isEnabled = true
+        reportButton.alpha = 1.0
     }
     
     @IBAction func report(_ sender: UIButton!) {
@@ -190,9 +185,8 @@ extension AccidentReportController: UITextFieldDelegate {
                 } else {
                     self.countTellNum.isHidden = true
                 }
-            
-    default:
-        break
+        default:
+            break
         }
     }
 

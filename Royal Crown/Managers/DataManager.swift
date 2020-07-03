@@ -4,19 +4,7 @@
 //
 //  Created by Albert on 24.06.2020.
 //  Copyright © 2020 Albert Mykola. All rights reserved.
-//
-//private func createImageToNavigationBar() {
-//     guard let navigationController = navigationController else { return }
-//     let width = navigationController.navigationBar.frame.width * 0.5
-//     let height = navigationController.navigationBar.frame.height
-//
-//     let container = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
-//     let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
-//     imageView.image = #imageLiteral(resourceName: "icLogoMain")
-//     imageView.contentMode = .scaleAspectFit
-//     container.addSubview(imageView)
-//     navigationItem.titleView = container
-// }
+
 
 import Foundation
 import UIKit

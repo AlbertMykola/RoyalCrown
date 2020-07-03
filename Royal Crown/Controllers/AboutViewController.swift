@@ -22,7 +22,6 @@ final class AboutViewController: UIViewController {
         super.viewDidLoad()
         DataManager.shared.createImageToNavigationBar(navigationController: self.navigationController!, navigationItem: navigationItem, text: "About")
         DataManager.shared.createTableView(tableView: myTableView, vc: self)
-
         parsing()
     }
     
