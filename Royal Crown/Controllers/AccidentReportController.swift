@@ -124,8 +124,13 @@ final class AccidentReportController: UIViewController {
 
     @IBAction func didChangeSwitch(_ sender: UISwitch!) {
         switchValue = sender.isOn
+        if sender.isOn {
         reportButton.isEnabled = true
         reportButton.alpha = 1.0
+        } else {
+            reportButton.isEnabled = false
+            reportButton.alpha = 0.6
+        }
     }
     
     @IBAction func report(_ sender: UIButton!) {
